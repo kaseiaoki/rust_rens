@@ -73,6 +73,7 @@ fn pd(p: &std::path::PathBuf, target: &'static str) {
             if let Ok(entry) = entry {
                 let e = entry.path();
                 if (tos(&e, target)) {
+                    println!("{:?}", entry.path());
                     println!("{:?}", metadata(entry.path()).unwrap());
                     process::exit(1);
                 }
