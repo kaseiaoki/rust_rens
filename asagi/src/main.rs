@@ -35,7 +35,7 @@ fn check(d: Vec<String>, t: &'static str) -> bool {
 fn lop(p: &std::path::PathBuf, target: &'static str) {
     let p = p.clone();
     thread::spawn(move || { pd(&p, target); });
-    thread::sleep_ms(1000);
+    thread::sleep_ms(10);
 }
 
 fn tos(p: &std::path::PathBuf, target: &'static str) -> bool {
