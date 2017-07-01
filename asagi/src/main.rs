@@ -23,9 +23,12 @@ fn check(d: Vec<String>, t: &'static str) -> bool {
     let mut catch: bool = false;
     let a: &'static str = &*t;
     for d in d.iter() {
+        if (d.starts_with('.')) {
+            continue;
+        }
         let r = d.contains(&a);
         if (r == true) {
-            print!("{}", d);
+            println!("{} is in this directory", d);
             catch = true;
         }
     }
@@ -90,7 +93,6 @@ fn sd(target: &'static str) {
     let t = target.clone();
     let cd = env::current_dir().unwrap();
     if (tos(&cd, t)) {
-        println!(" is in this directory");
         process::exit(1);
     }
     if let Ok(entries) = fs::read_dir("") {
