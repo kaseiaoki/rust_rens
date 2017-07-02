@@ -20,6 +20,7 @@ fn string_to_static_str(s: String) -> &'static str {
     }
 }
 fn check(d: Vec<String>, t: &'static str) -> bool {
+    // println!("check");
     let mut catch: bool = false;
     let a: &'static str = &*t;
     for d in d.iter() {
@@ -36,6 +37,7 @@ fn check(d: Vec<String>, t: &'static str) -> bool {
 }
 
 fn lop(p: &std::path::PathBuf, target: &'static str) {
+    // println!("lop");
     let p = p.clone();
     thread::spawn(move || { pd(&p, target); });
     thread::sleep_ms(10);
@@ -43,6 +45,7 @@ fn lop(p: &std::path::PathBuf, target: &'static str) {
 
 
 fn tos(p: &std::path::PathBuf, target: &'static str) -> bool {
+    // println!("tos");
     let paths = fs::read_dir(p).unwrap();
     let names = paths
         .map(|entry| {
@@ -69,17 +72,18 @@ fn tos(p: &std::path::PathBuf, target: &'static str) -> bool {
 }
 
 fn pd(p: &std::path::PathBuf, target: &'static str) {
+    // println!("pd");
     if let Ok(entries) = fs::read_dir(&p) {
         for entry in entries {
             if let Ok(entry) = entry {
                 let e = entry.path();
-                if (tos(&e, target)) {
-                    println!("{:?}", entry.path());
-                    println!("{:?}", metadata(entry.path()).unwrap());
-                    process::exit(1);
-                }
                 let md = metadata(entry.path()).unwrap();
                 if (md.is_dir()) {
+                    if (tos(&e, target)) {
+                        println!("{:?}", entry.path());
+                        println!("{:?}", metadata(entry.path()).unwrap());
+                        process::exit(1);
+                    }
                     let path_buf = entry.path();
                     lop(&path_buf, target);
                 }
@@ -90,6 +94,7 @@ fn pd(p: &std::path::PathBuf, target: &'static str) {
 
 
 fn sd(target: &'static str) {
+    // println!("sd");
     let t = target.clone();
     let cd = env::current_dir().unwrap();
     if (tos(&cd, t)) {
@@ -101,6 +106,8 @@ fn sd(target: &'static str) {
                 let e = entry.path();
                 let md = metadata(entry.path()).unwrap();
                 if (md.is_dir()) {
+                    // println!("{:?}", entry.path());
+                    // println!("{:?}", metadata(entry.path()).unwrap());
                     let path_buf = entry.path();
                     lop(&path_buf, t);
                 }
