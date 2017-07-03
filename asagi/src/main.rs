@@ -68,7 +68,7 @@ fn tos(p: &std::path::PathBuf, target: &'static str) -> bool {
     }
     let t = String::from(target);
     let ans = check(dir, target);
-    return ans;
+    ans
 }
 
 fn pd(p: &std::path::PathBuf, target: &'static str) {
@@ -82,7 +82,7 @@ fn pd(p: &std::path::PathBuf, target: &'static str) {
                     if (tos(&e, target)) {
                         println!("{:?}", entry.path());
                         println!("{:?}", metadata(entry.path()).unwrap());
-                        process::exit(1);
+                        process::exit(0);
                     }
                     let path_buf = entry.path();
                     lop(&path_buf, target);
@@ -98,7 +98,7 @@ fn sd(target: &'static str) {
     let t = target.clone();
     let cd = env::current_dir().unwrap();
     if (tos(&cd, t)) {
-        process::exit(1);
+        process::exit(0);
     }
     if let Ok(entries) = fs::read_dir("") {
         for entry in entries {
